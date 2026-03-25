@@ -11,9 +11,10 @@
           <span>Depenser mieux.</span>
         </h1>
         <p class="lead">
-          Suis tes depenses en temps reel, organise-les par categorie et pilote
-          ton budget avec une interface claire et moderne.
+          Gere tes depenses facilement, classe-les par categorie et garde une
+          vision claire de ton budget au quotidien.
         </p>
+
 
 
         <div class="hero-actions">
