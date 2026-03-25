@@ -1,25 +1,39 @@
 <template>
-  <section class="editor">
-    <p class="section-label">Nouvelle ligne</p>
-    <h2>Ajouter une sortie</h2>
-    <p class="description">
-      Une entree simple, presque comme sur papier: un libelle, un montant, puis
-      retour au registre.
-    </p>
+  <section class="add-page">
+    <div class="form-shell">
+      <p class="eyebrow">Ajoute une ligne a ton registre.</p>
+      <h1>Nouvelle depense.</h1>
+      <p class="lead">
+        Renseigne un libelle, un montant et une categorie pour mieux t'organiser.
+      </p>
 
-    <form class="form" @submit.prevent="add">
-      <label>
-        <span>Libelle</span>
-        <input v-model="title" placeholder="Ex: Courses" required />
-      </label>
+      <form class="form" @submit.prevent="add">
+        <label>
+          <span>Libelle</span>
+          <input v-model="title" placeholder="Ex: Navigo" required />
+        </label>
 
-      <label>
-        <span>Montant</span>
-        <input v-model.number="amount" type="number" min="0" step="0.01" required />
-      </label>
+        <label>
+          <span>Montant</span>
+          <input v-model.number="amount" type="number" placeholder="Ex: 84" required />
+        </label>
 
-      <button>Enregistrer la ligne</button>
-    </form>
+        <label>
+          <span>Categorie</span>
+          <select v-model="category" required>
+            <option
+              v-for="option in categories"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </label>
+
+        <button>Enregistrer la depense</button>
+      </form>
+    </div>
   </section>
 </template>
 
@@ -30,12 +44,24 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const title = ref('')
 const amount = ref(0)
+const categories = [
+  { value: 'transport', label: 'Transport' },
+  { value: 'nourriture', label: 'Nourriture' },
+  { value: 'loisirs', label: 'Loisirs' },
+  { value: 'logement', label: 'Logement' },
+  { value: 'sante', label: 'Sante' }
+]
+const category = ref('nourriture')
 
 const add = async () => {
   await fetch('http://localhost:3000/expenses', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title: title.value, amount: amount.value })
+    body: JSON.stringify({
+      title: title.value,
+      amount: amount.value,
+      category: category.value
+    })
   })
 
   router.push('/')
@@ -43,81 +69,99 @@ const add = async () => {
 </script>
 
 <style scoped>
-.editor {
-  padding: 26px;
-  border: 1px solid rgba(44, 54, 38, 0.12);
+.add-page {
+  min-height: calc(100vh - 82px);
+  padding: 34px 32px 40px;
+}
+
+.form-shell {
+  width: min(100%, 1120px);
+  padding: 34px;
   border-radius: 32px;
   background:
-    linear-gradient(180deg, rgba(255, 251, 244, 0.98), rgba(249, 244, 233, 0.98));
-  box-shadow: 0 14px 28px rgba(69, 56, 33, 0.07);
+    radial-gradient(circle at top left, rgba(127, 140, 255, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(29, 27, 36, 0.96), rgba(18, 18, 22, 0.96));
+  box-shadow: 0 28px 56px rgba(0, 0, 0, 0.34);
 }
 
-.section-label {
-  margin: 0 0 8px;
-  font-size: 0.78rem;
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f6c27a;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #716a52;
 }
 
-h2 {
+h1 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 2.2rem;
+  color: #f5f5f5;
+  font-size: clamp(2.8rem, 6vw, 4.4rem);
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
 }
 
-.description {
-  max-width: 520px;
-  margin: 12px 0 0;
-  line-height: 1.65;
-  color: #5d6353;
+.lead {
+  max-width: 700px;
+  margin: 18px 0 0;
+  color: #a1a1aa;
+  font-size: 1.15rem;
+  line-height: 1.6;
 }
 
 .form {
   display: grid;
-  gap: 20px;
-  margin-top: 28px;
+  gap: 18px;
+  max-width: 720px;
+  margin-top: 34px;
 }
 
 label {
   display: grid;
-  gap: 10px;
-  color: #1f2a1f;
+  gap: 8px;
+}
+
+label span {
+  color: #f3f4f6;
   font-weight: 600;
 }
 
-input {
+input,
+select {
   padding: 15px 16px;
-  border: 1px solid rgba(44, 54, 38, 0.14);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.84);
-  color: #1f2a1f;
+  border: 0;
+  border-radius: 14px;
+  background: #0f1012;
+  color: #f5f5f5;
   font: inherit;
 }
 
-input:focus {
+input:focus,
+select:focus {
   outline: none;
-  border-color: #6d7f5d;
-  box-shadow: 0 0 0 4px rgba(156, 175, 136, 0.18);
+  box-shadow: 0 0 0 2px rgba(240, 185, 11, 0.34);
 }
 
 button {
   justify-self: start;
-  padding: 13px 22px;
+  min-width: 240px;
+  padding: 16px 22px;
   border: 0;
   border-radius: 999px;
-  background: #263126;
-  color: #fff7e8;
+  background: linear-gradient(135deg, #f0b90b 0%, #f6c27a 100%);
+  color: #141414;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
 }
 
-@media (max-width: 640px) {
-  .editor {
-    padding: 20px 18px;
+@media (max-width: 720px) {
+  .add-page {
+    padding: 20px 16px 28px;
+  }
+
+  .form-shell {
+    padding: 24px 18px;
     border-radius: 24px;
   }
 
