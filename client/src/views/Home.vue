@@ -142,6 +142,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
+const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 const expenses = ref([])
 const categories = [
   { value: 'transport', label: 'Transport' },
@@ -166,19 +167,19 @@ const categoryColors = {
 }
 
 const load = async () => {
-  const res = await fetch('http://localhost:3000/expenses')
+  const res = await fetch(`${apiBaseUrl}/expenses`)
   expenses.value = await res.json()
 }
 
 onMounted(load)
 
 const remove = async (id) => {
-  await fetch('http://localhost:3000/expenses/' + id, { method: 'DELETE' })
+  await fetch(`${apiBaseUrl}/expenses/${id}`, { method: 'DELETE' })
   load()
 }
 
 const updateCategory = async (id, category) => {
-  const res = await fetch(`http://localhost:3000/expenses/${id}/category`, {
+  const res = await fetch(`${apiBaseUrl}/expenses/${id}/category`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ category })

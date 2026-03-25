@@ -41,6 +41,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 const router = useRouter()
 const title = ref('')
 const amount = ref(0)
@@ -54,7 +55,7 @@ const categories = [
 const category = ref('nourriture')
 
 const add = async () => {
-  await fetch('http://localhost:3000/expenses', {
+  await fetch(`${apiBaseUrl}/expenses`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

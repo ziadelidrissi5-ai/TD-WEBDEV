@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: esilv-expense-api
+    runtime: node
+    rootDir: server
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: MONGODB_URI
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false

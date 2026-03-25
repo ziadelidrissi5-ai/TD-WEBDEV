@@ -3,12 +3,15 @@ const mongoose = require('mongoose')
 const cors = require('@fastify/cors')
 
 const categories = ['transport', 'nourriture', 'loisirs', 'logement', 'sante']
+const port = Number(process.env.PORT || 3000)
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/esilv'
+const corsOrigin = process.env.CORS_ORIGIN || '*'
 
 fastify.register(cors, {
-  origin: '*'
+  origin: corsOrigin
 })
 
-mongoose.connect('mongodb://localhost:27017/esilv')
+mongoose.connect(mongoUri)
 
 const Expense = mongoose.model('Expense', {
   title: String,
@@ -58,4 +61,4 @@ fastify.delete('/expenses/:id', async (req) => {
   return { ok: true }
 })
 
-fastify.listen({ port: 3000 })
+fastify.listen({ host: '0.0.0.0', port })

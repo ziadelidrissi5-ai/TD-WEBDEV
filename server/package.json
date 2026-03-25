@@ -1,5 +1,9 @@
 {
   "name": "server",
+  "scripts": {
+    "dev": "node src/index.js",
+    "start": "node src/index.js"
+  },
   "dependencies": {
     "@fastify/cors": "^8.5.0",
     "fastify": "^4.0.0",
