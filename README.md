@@ -1,85 +1,65 @@
-# Projet ESILV - Tracker de depenses
+# Mini projet Web ESILV 2026
 
-Application web full-stack permettant d'ajouter, consulter, categoriser et supprimer des depenses.
+## Description du projet
 
-## Stack
+Ce projet est une petite application web de suivi de depenses.
 
-- Frontend: Vue 3 + Vite
-- Backend: Node.js + Fastify
-- Base de donnees: MongoDB
+Le but est de pouvoir ajouter des depenses, les classer par categorie, voir la
+liste des depenses et voir aussi le total. J'ai aussi ajouté une partie visuel
+avec des graphiques pour que ce soit plus simple a lire.
 
-## Fonctionnalites
+Le frontend a ete fait avec Vue.js et le backend avec Fastify. Les donnees sont
+enregistrées dans MongoDB donc elles restent meme si on redemarre le serveur.
 
-- ajout d'une depense via formulaire
-- categorie de depense
-- affichage dynamique des depenses
-- total des depenses
-- modification de categorie
-- suppression d'une depense
-- graphiques par categorie
+Franchement l'idee etait de faire un projet simple mais complet pour appliquer
+ce qu'on a vu en cours sur le front, le back et la base de donnée.
 
-## Lancement en local
+## Comment lancer le serveur
 
-### Backend
+Il faut d'abord aller dans le dossier `server` :
 
 ```bash
 cd server
+```
+
+Ensuite installer les dependances :
+
+```bash
 npm install
+```
+
+Puis lancer le serveur :
+
+```bash
 node src/index.js
 ```
 
-### Frontend
+Le serveur se lance sur le port `3000`.
+
+## Comment lancer le frontend
+
+Il faut aller dans le dossier `client` :
 
 ```bash
 cd client
+```
+
+Ensuite installer les dependances :
+
+```bash
 npm install
+```
+
+Puis lancer le frontend :
+
+```bash
 npm run dev
 ```
 
-### MongoDB
+Apres ca, Vite donne un lien local dans le terminal pour ouvrir le site dans le
+navigateur.
 
-Lancer MongoDB localement sur `mongodb://localhost:27017`.
+## Remarque
 
-## Variables d'environnement
-
-### Frontend
-
-Voir `client/.env.example`
-
-Variable utile:
-
-- `VITE_API_URL`: URL publique du backend
-
-### Backend
-
-Voir `server/.env.example`
-
-Variables utiles:
-
-- `PORT`
-- `MONGODB_URI`
-- `CORS_ORIGIN`
-
-## Deploiement
-
-### Frontend sur Netlify
-
-- base directory: `client`
-- build command: `npm run build`
-- publish directory: `dist`
-- variable d'environnement a definir:
-  - `VITE_API_URL=https://<ton-backend-render>.onrender.com`
-
-Le fichier `netlify.toml` est deja fourni.
-
-### Backend sur Render
-
-- service type: `Web Service`
-- root directory: `server`
-- build command: `npm install`
-- start command: `npm start`
-- variables d'environnement a definir:
-  - `MONGODB_URI=<ton-uri-mongodb>`
-  - `CORS_ORIGIN=https://<ton-frontend-netlify>.netlify.app`
-
-Le fichier `render.yaml` est deja fourni.
+Pour que le projet marche bien en local, il faut aussi lancer MongoDB en local,
+sinon les depenses ne pourront pas etre enregistrer.
